@@ -1,23 +1,26 @@
-from datetime import date
 from pathlib import Path
+from datetime import datetime
 
-import os
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 def save_entry(content: str):
 
-    today = date.today().isoformat()
+    today = datetime.now()
 
-    BASE_DIR = Path(__file__).resolve().parent.parent
-    
-    notes_dir = BASE_DIR / "notes" 
+    year = today.strftime("%Y")
+    month = today.strftime("%m")
+    day = today.strftime("%d")
 
-    os.makedirs(notes_dir, exist_ok=True)
+    notes_dir = BASE_DIR / "notes" / year / month
 
-    file_path = f"{notes_dir}/{today}.md"
+    notes_dir.mkdir(parents=True, exist_ok=True)
+
+    file_path = notes_dir / f"{day}.md"
 
     markdown_content = f"""# Riyaz Entry
 
-Date: {today}
+Date: {today.strftime("%Y-%m-%d")}
 
 ## Learned Today
 
@@ -27,4 +30,4 @@ Date: {today}
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(markdown_content)
 
-    return file_path
+    return str(file_path)
