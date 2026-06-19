@@ -3,6 +3,8 @@ from git_service import commit_and_push
 from models import EntryRequest
 from markdown_service import save_entry
 from fastapi.middleware.cors import CORSMiddleware
+from entries_service import get_all_entries
+
 
 app = FastAPI()
 
@@ -38,3 +40,8 @@ def create_entry(entry: EntryRequest):
         "message": "Entry Saved",
         "file": file_path
     }
+
+@app.get("/entries")
+def get_entries():
+
+    return get_all_entries()
